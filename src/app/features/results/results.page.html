@@ -1,0 +1,105 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar class="results-toolbar">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/scanner"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Resultado de detección</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="app-shell-bg" [fullscreen]="true">
+    <div class="container py-4">
+        <div class="glass-card p-4 p-md-5">
+            <div class="result-head mb-4">
+                <span class="app-chip">
+                    <i class="bi bi-cpu"></i>
+                    Resultado procesado localmente
+                </span>
+
+                <h1 class="result-title mt-3">Última clasificación registrada</h1>
+                <p class="result-subtitle mb-0">
+                    Esta vista resume la última detección realizada por el sistema y su mensaje
+                    funcional asociado.
+                </p>
+            </div>
+
+            <ng-container *ngIf="deteccion(); else emptyState">
+                <div class="result-panel">
+                    <div class="result-icon">
+                        <i class="bi" [ngClass]="deteccion()?.icon"></i>
+                    </div>
+
+                    <div class="result-body">
+                        <div class="result-label">{{ deteccion()?.group }}</div>
+                        <h2 class="result-name">{{ deteccion()?.label }}</h2>
+                        <p class="result-message">{{ deteccion()?.message }}</p>
+
+                        <div class="result-metrics">
+                            <div class="metric-card">
+                                <div class="metric-card__label">Clase técnica</div>
+                                <div class="metric-card__value result-code">
+                                    {{ deteccion()?.key }}
+                                </div>
+                            </div>
+
+                            <div class="metric-card">
+                                <div class="metric-card__label">Confianza</div>
+                                <div class="metric-card__value">
+                                    {{ (deteccion()?.confidence ?? 0) * 100 | number:'1.0-0' }}%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-template #emptyState>
+                <div class="empty-state">
+                    <div class="empty-state__icon">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <h2>No hay una detección registrada</h2>
+                    <p>
+                        Activa el módulo de escaneo y ejecuta una detección para visualizar los
+                        resultados en esta sección.
+                    </p>
+                </div>
+            </ng-template>
+
+            <div class="row g-4 mt-2">
+                <div class="col-12 col-lg-6">
+                    <div class="glass-subcard p-4 h-100">
+                        <h3 class="section-title">Lineamientos de interpretación</h3>
+
+                        <div class="vstack gap-3">
+                            <div class="tip-item" *ngFor="let item of recomendaciones">
+                                <div class="tip-item__icon">
+                                    <i class="bi bi-check2-square"></i>
+                                </div>
+                                <div>{{ item }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="glass-subcard p-4 h-100">
+                        <h3 class="section-title">Acciones disponibles</h3>
+
+                        <div class="action-list">
+                            <a routerLink="/scanner" class="action-link">
+                                <i class="bi bi-camera-video"></i>
+                                Volver al escáner
+                            </a>
+
+                            <a routerLink="/home" class="action-link">
+                                <i class="bi bi-house-door"></i>
+                                Ir al inicio
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

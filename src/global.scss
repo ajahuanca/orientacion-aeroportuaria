@@ -1,37 +1,194 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
+/* Ionic core */
+@import '@ionic/angular/css/core.css';
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
 
-/* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
+/* Ionic utilities */
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
 
-/* Basic CSS for apps built with Ionic */
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import "@ionic/angular/css/display.css";
+/* Bootstrap */
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 
-/* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
+:root {
+    --app-bg: linear-gradient(135deg, #081120 0%, #0b1f3a 35%, #123c68 100%);
+    --app-surface: rgba(255, 255, 255, 0.1);
+    --app-surface-strong: rgba(255, 255, 255, 0.16);
+    --app-border: rgba(255, 255, 255, 0.16);
+    --app-text: #f4f8ff;
+    --app-text-soft: #c8d6ea;
+    --app-primary: #2dd4bf;
+    --app-secondary: #38bdf8;
+    --app-accent: #f59e0b;
+    --app-danger: #fb7185;
+    --app-success: #22c55e;
+    --app-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    --app-radius: 22px;
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+    --ion-background-color: #081120;
+    --ion-text-color: #f4f8ff;
+    --ion-color-primary: #2dd4bf;
+    --ion-color-primary-rgb: 45, 212, 191;
+    --ion-color-primary-contrast: #04161a;
+    --ion-color-primary-shade: #28bba9;
+    --ion-color-primary-tint: #42d9c5;
+}
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+html,
+body,
+ion-app,
+ion-content {
+    font-family: Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--app-bg);
+    color: var(--app-text);
+}
+
+body {
+    background: var(--app-bg);
+}
+
+.app-shell-bg {
+    --background: transparent;
+    background:
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.18), transparent 25%),
+        radial-gradient(circle at bottom left, rgba(45, 212, 191, 0.18), transparent 25%),
+        var(--app-bg);
+}
+
+.glass-card {
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: var(--app-shadow);
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    margin-bottom: 0.8rem;
+    color: #ffffff;
+}
+
+.soft-text {
+    color: var(--app-text-soft);
+}
+
+.icon-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(45, 212, 191, 0.2), rgba(56, 189, 248, 0.2));
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 1.4rem;
+    color: #fff;
+}
+
+.btn-app-primary {
+    background: linear-gradient(135deg, var(--app-primary), var(--app-secondary));
+    color: #06202c;
+    border: none;
+    font-weight: 700;
+    border-radius: 16px;
+    padding: 0.9rem 1.2rem;
+    box-shadow: 0 10px 25px rgba(45, 212, 191, 0.25);
+}
+
+.btn-app-primary:hover,
+.btn-app-primary:focus {
+    color: #06202c;
+    transform: translateY(-1px);
+}
+
+.btn-app-outline {
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-weight: 600;
+    border-radius: 16px;
+    padding: 0.9rem 1.2rem;
+}
+
+.app-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #e9f1ff;
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+.metric-card {
+    padding: 1rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 100%;
+}
+
+.metric-card__label {
+    color: var(--app-text-soft);
+    font-size: 0.84rem;
+    margin-bottom: 0.35rem;
+}
+
+.metric-card__value {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.feature-item {
+    display: flex;
+    gap: 0.95rem;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.feature-item__icon {
+    min-width: 46px;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(251, 113, 133, 0.2), rgba(245, 158, 11, 0.2));
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.feature-item__title {
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.feature-item__desc {
+    color: var(--app-text-soft);
+    font-size: 0.92rem;
+    margin-bottom: 0;
+}
+
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 1rem;
+    }
+}

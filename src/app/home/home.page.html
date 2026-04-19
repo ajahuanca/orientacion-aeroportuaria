@@ -1,20 +1,187 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar class="home-toolbar">
+    <div class="container py-2">
+      <div class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-icon">
+            <i class="bi bi-eye"></i>
+          </div>
+          <div>
+            <div class="brand-title">AeroVision Access</div>
+            <div class="brand-subtitle">
+              <span class="fw-bold">Sistema Inteligente de Orientación Accesible</span> <br>
+              <i class="bi bi-person"></i> Por: Edwin Ajahuanca Callisaya
+            </div>
+          </div>
+        </div>
+
+        <div class="d-none d-md-flex align-items-center gap-2">
+          <span class="app-chip">
+            <i class="bi bi-shield-check"></i>
+            Arquitectura segura
+          </span>
+          <span class="app-chip">
+            <i class="bi bi-phone"></i>
+            Ionic Angular
+          </span>
+        </div>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="app-shell-bg">
+  <section class="hero-section">
+    <div class="container py-4 py-md-5">
+      <div class="row g-4 align-items-center">
+        <div class="col-12 col-lg-7">
+          <div class="hero-copy">
+            <span class="hero-badge">
+              <i class="bi bi-stars"></i>
+              Visión artificial aplicada a accesibilidad aeroportuaria
+            </span>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+            <h1 class="hero-title">
+              Orientación accesible con inteligencia artificial para entornos
+              aeroportuarios
+            </h1>
+
+            <p class="hero-description">
+              La solución integra reconocimiento visual de señalética, procesamiento
+              local y retroalimentación auditiva para apoyar la autonomía de personas
+              con discapacidad visual durante su desplazamiento.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-5">
+          <div class="home-actions-top glass-card p-4">
+            <div class="home-actions-top__title">
+              <i class="bi bi-hand-index-thumb"></i>
+              Acciones principales
+            </div>
+
+            <div class="hero-actions">
+              <a routerLink="/scanner" class="btn btn-app-primary">
+                <i class="bi bi-camera-video-fill me-2"></i>
+                Ir al escáner
+              </a>
+
+              <a routerLink="/results" class="btn btn-app-outline">
+                <i class="bi bi-bar-chart-line me-2"></i>
+                Ver resultados
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card hero-panel p-3 p-md-4 mt-4">
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <div class="icon-badge">
+            <i class="bi bi-airplane-engines"></i>
+          </div>
+          <div>
+            <div class="panel-eyebrow">Estado del sistema</div>
+            <h2 class="panel-title mb-0">Módulos principales habilitados</h2>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-sm-4" *ngFor="let metrica of metricas">
+            <div class="metric-card text-center">
+              <div class="mb-2">
+                <i [class]="metrica.icono"></i>
+              </div>
+              <div class="metric-card__label">{{ metrica.titulo }}</div>
+              <div class="metric-card__value">{{ metrica.valor }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-box mt-4">
+          <div class="status-box__header">
+            <span class="status-dot"></span>
+            Línea funcional
+          </div>
+          <p class="mb-0">
+            Inicio institucional, módulo de escaneo, resultado de detección y
+            servicios base para cámara, inferencia y guía auditiva.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="content-section pb-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-12 col-lg-6">
+          <div class="glass-card p-4 h-100">
+            <h3 class="section-title">Capacidades del sistema</h3>
+            <p class="soft-text mb-4">
+              La arquitectura fue definida para separar presentación, acceso a
+              cámara, inferencia local y salida por voz, favoreciendo mantenibilidad
+              y evolución futura.
+            </p>
+
+            <div class="vstack gap-3">
+              <div class="feature-item" *ngFor="let item of funcionalidades">
+                <div class="feature-item__icon">
+                  <i [class]="item.icono"></i>
+                </div>
+                <div>
+                  <div class="feature-item__title">{{ item.titulo }}</div>
+                  <p class="feature-item__desc">{{ item.descripcion }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="glass-card p-4 h-100">
+            <h3 class="section-title">Clases estratégicas del sistema</h3>
+
+            <div class="class-list">
+              <div class="class-list__item">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>senal_direccion_area_check_in</span>
+              </div>
+              <div class="class-list__item">
+                <i class="bi bi-sign-turn-right"></i>
+                <span>senal_direccion_puerta_embarque</span>
+              </div>
+              <div class="class-list__item">
+                <i class="bi bi-shield-lock"></i>
+                <span>senal_direccion_control_seguridad</span>
+              </div>
+              <div class="class-list__item">
+                <i class="bi bi-door-open"></i>
+                <span>senal_direccion_salida_terminal</span>
+              </div>
+              <div class="class-list__item">
+                <i class="bi bi-info-circle"></i>
+                <span>senal_punto_informacion_aeroportuaria</span>
+              </div>
+              <div class="class-list__item">
+                <i class="bi bi-ban"></i>
+                <span>entorno_sin_senal_relevante</span>
+              </div>
+            </div>
+
+            <div class="info-banner mt-4">
+              <i class="bi bi-lightbulb"></i>
+              <div>
+                La siguiente fase consiste en reemplazar la simulación actual por
+                la carga real del modelo exportado desde Teachable Machine con
+                TensorFlow.js.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </ion-content>
