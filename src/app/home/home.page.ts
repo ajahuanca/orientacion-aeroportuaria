@@ -2,10 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
-    IonButton,
     IonContent,
     IonHeader,
-    IonTitle,
     IonToolbar
 } from '@ionic/angular/standalone';
 
@@ -14,7 +12,7 @@ import {
     templateUrl: './home.page.html',
     styleUrls: ['./home.page.scss'],
     standalone: true,
-    imports: [CommonModule, RouterLink, IonHeader, IonToolbar, IonTitle, IonContent, IonButton]
+    imports: [CommonModule, RouterLink, IonHeader, IonToolbar, IonContent]
 })
 export class HomePage {
     readonly metricas = [

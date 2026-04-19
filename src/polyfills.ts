@@ -53,3 +53,7 @@ import 'zone.js';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+import { Buffer } from 'buffer';
+
+(window as typeof window & { Buffer: typeof Buffer }).Buffer = Buffer;

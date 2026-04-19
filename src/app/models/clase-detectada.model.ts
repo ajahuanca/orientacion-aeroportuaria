@@ -6,3 +6,7 @@ export interface ClaseDetectada {
     icon: string;
     group: string;
 }
+
+export interface TeachableMetadata {
+    labels?: string[];
+}

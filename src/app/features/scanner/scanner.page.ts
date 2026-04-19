@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import {
     IonBackButton,
     IonButtons,
@@ -20,7 +20,7 @@ import { ModeloOrientacionService } from 'src/app/services/modelo-orientacion.se
     templateUrl: './scanner.page.html',
     styleUrls: ['./scanner.page.scss'],
     standalone: true,
-    imports: [CommonModule, RouterLink, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton, IonContent]
+    imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton, IonContent]
 })
 export class ScannerPage implements AfterViewInit, OnDestroy {
     @ViewChild('videoRef') videoRef!: ElementRef<HTMLVideoElement>;
@@ -34,6 +34,7 @@ export class ScannerPage implements AfterViewInit, OnDestroy {
     camaraActiva = false;
     cargando = false;
     deteccionActual: ClaseDetectada | null = null;
+    errorCarga = '';
 
     readonly recomendaciones = [
         'Mantén el móvil estable durante el escaneo.',
@@ -42,7 +43,12 @@ export class ScannerPage implements AfterViewInit, OnDestroy {
     ];
 
     async ngAfterViewInit(): Promise<void> {
-        await this.modeloService.cargarModelo();
+        try {
+            await this.modeloService.cargarModelo();
+        } catch (error) {
+            console.error(error);
+            this.errorCarga = 'No se pudo cargar el modelo de clasificación.';
+        }
     }
 
     async iniciarCamara(): Promise<void> {
@@ -55,6 +61,7 @@ export class ScannerPage implements AfterViewInit, OnDestroy {
             this.camaraActiva = true;
         } catch (error) {
             console.error('No se pudo acceder a la cámara', error);
+            this.errorCarga = 'No se pudo acceder a la cámara del dispositivo.';
         }
     }
 
@@ -65,17 +72,32 @@ export class ScannerPage implements AfterViewInit, OnDestroy {
     }
 
     async escanearAhora(): Promise<void> {
+        if (!this.camaraActiva || !this.videoRef?.nativeElement) {
+            this.errorCarga = 'Activa la cámara antes de ejecutar el escaneo.';
+            return;
+        }
+
         this.cargando = true;
+        this.errorCarga = '';
 
         try {
-            const resultado = await this.modeloService.simularPrediccion();
+            const resultado = await this.modeloService.predecirDesdeVideo(
+                this.videoRef.nativeElement
+            );
+
             this.deteccionActual = resultado;
 
-            if (resultado.key !== 'entorno_sin_senal_relevante') {
+            if (
+                resultado.key !== 'entorno_sin_senal_relevante' &&
+                resultado.confidence >= 0.60
+            ) {
                 this.audioService.hablar(resultado.message);
             }
 
             this.router.navigate(['/results']);
+        } catch (error) {
+            console.error(error);
+            this.errorCarga = 'Ocurrió un error al procesar la imagen capturada.';
         } finally {
             this.cargando = false;
         }
@@ -83,6 +105,6 @@ export class ScannerPage implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.detenerCamara();
-        this.audioService.detener();
+        //this.audioService.detener();
     }
 }
