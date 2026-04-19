@@ -1,0 +1,7 @@
+{
+  "name": "sistema-orientacion-aeroportuaria",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
