@@ -7,124 +7,126 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="app-shell-bg" [fullscreen]="true">
-  <div class="container py-4">
-    <div class="scanner-hero glass-card p-4 mb-4">
-      <div class="scanner-hero__head">
-        <div>
-          <span class="app-chip mb-3">
-            <i class="bi bi-camera-video"></i>
-            Reconocimiento visual en tiempo real
-          </span>
-          <h1 class="scanner-title">Módulo de orientación visual</h1>
-          <p class="scanner-subtitle mb-0">
-            Centraliza la cámara, la inferencia local y la asistencia por voz para
-            detectar señalética aeroportuaria de forma simple y accesible.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="scanner-actions-top glass-card p-3 p-md-4 mb-4">
-      <div class="scanner-actions-top__title">
-        <i class="bi bi-hand-index-thumb"></i>
-        Acciones principales
-      </div>
-      <div class="alert alert-danger mt-3 mb-4" *ngIf="errorCarga">
-        <i class="bi bi-exclamation-triangle me-2"></i>
-        {{ errorCarga }}
-      </div>
-
-      <div class="scanner-actions">
-        <button class="btn btn-app-primary" (click)="iniciarCamara()">
-          <i class="bi bi-camera-video-fill me-2"></i>
-          Activar cámara
-        </button>
-
-        <button class="btn btn-app-outline" (click)="escanearAhora()">
-          <i class="bi bi-search me-2"></i>
-          Escanear ahora
-        </button>
-
-        <button class="btn btn-app-outline" (click)="detenerCamara()">
-          <i class="bi bi-stop-circle me-2"></i>
-          Detener cámara
-        </button>
-      </div>
-    </div>
-
-    <div class="row g-4">
-      <div class="col-12 col-lg-7">
-        <div class="glass-card p-3 p-md-4 h-100">
-          <div class="preview-frame">
-            <video #videoRef autoplay muted playsinline></video>
-
-            <div class="preview-overlay">
-              <div class="scan-line"></div>
-              <div class="preview-label">
-                <i class="bi bi-bounding-box-circles"></i>
-                Área de reconocimiento
-              </div>
-            </div>
-
-            <div class="preview-placeholder" *ngIf="!camaraActiva">
-              <div class="preview-placeholder__icon">
-                <i class="bi bi-camera"></i>
-              </div>
-              <h3>La cámara aún no está activa</h3>
-              <p>
-                Presiona “Activar cámara” para comenzar la detección visual del
-                entorno.
-              </p>
-            </div>
+<ion-content class="app-shell-bg scanner-content" [fullscreen]="true" [scrollY]="!camaraActiva">
+  <div class="scanner-page-shell">
+    <div class="container py-4">
+      <div class="scanner-hero glass-card p-4 mb-4">
+        <div class="scanner-hero__head">
+          <div>
+            <span class="app-chip mb-3">
+              <i class="bi bi-camera-video"></i>
+              Reconocimiento visual en tiempo real
+            </span>
+            <p class="scanner-subtitle mb-0">
+              Centraliza la cámara, la inferencia local y la asistencia por voz para
+              detectar señalética aeroportuaria de forma simple y accesible.
+            </p>
           </div>
         </div>
       </div>
 
-      <div class="col-12 col-lg-5">
-        <div class="glass-card p-4 mb-4">
-          <h2 class="section-title">Estado actual</h2>
+      <div class="scanner-actions-top glass-card p-3 p-md-4 mb-4">
+        <div class="scanner-actions-top__title">
+          <i class="bi bi-hand-index-thumb"></i>
+          Acciones principales
+        </div>
 
-          <div class="status-grid">
-            <div class="metric-card">
-              <div class="metric-card__label">Cámara</div>
-              <div class="metric-card__value">
-                {{ camaraActiva ? 'Activa' : 'Inactiva' }}
+        <div class="alert alert-danger mb-4" *ngIf="errorCarga">
+          <i class="bi bi-exclamation-triangle me-2"></i>
+          {{ errorCarga }}
+        </div>
+
+        <div class="scanner-actions">
+          <button class="btn btn-app-primary" (click)="iniciarCamara()">
+            <i class="bi bi-camera-video-fill me-2"></i>
+            Activar cámara
+          </button>
+
+          <button class="btn btn-app-outline" (click)="escanearAhora()">
+            <i class="bi bi-search me-2"></i>
+            Escanear ahora
+          </button>
+
+          <button class="btn btn-app-outline" (click)="detenerCamara()">
+            <i class="bi bi-stop-circle me-2"></i>
+            Detener cámara
+          </button>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-12 col-lg-7">
+          <div class="glass-card p-3 p-md-4 h-100">
+            <div class="preview-frame">
+              <div id="cameraPreview" class="preview-native"></div>
+
+              <div class="preview-overlay">
+                <div class="scan-line"></div>
+                <div class="preview-label">
+                  <i class="bi bi-bounding-box-circles"></i>
+                  Área de reconocimiento
+                </div>
               </div>
-            </div>
 
-            <div class="metric-card">
-              <div class="metric-card__label">Inferencia</div>
-              <div class="metric-card__value">
-                {{ cargando ? 'Procesando' : 'Disponible' }}
+              <div class="preview-placeholder" *ngIf="!camaraActiva">
+                <div class="preview-placeholder__icon">
+                  <i class="bi bi-camera"></i>
+                </div>
+                <h3>La cámara aún no está activa</h3>
+                <p>
+                  Presiona “Activar cámara” para comenzar la detección visual del
+                  entorno.
+                </p>
               </div>
-            </div>
-          </div>
-
-          <div class="detection-box mt-4" *ngIf="deteccionActual">
-            <div class="detection-box__header">
-              <i class="bi" [ngClass]="deteccionActual.icon"></i>
-              Última detección
-            </div>
-
-            <h3 class="detection-box__title">{{ deteccionActual.label }}</h3>
-            <p class="detection-box__message">{{ deteccionActual.message }}</p>
-            <div class="app-chip">
-              <i class="bi bi-bar-chart"></i>
-              Confianza: {{ deteccionActual.confidence * 100 | number:'1.0-0' }}%
             </div>
           </div>
         </div>
 
-        <div class="glass-card p-4">
-          <h2 class="section-title">Buenas prácticas de uso</h2>
+        <div class="col-12 col-lg-5">
+          <div class="glass-card p-4 mb-4">
+            <h2 class="section-title">Estado actual</h2>
 
-          <div class="vstack gap-3">
-            <div class="tip-item" *ngFor="let item of recomendaciones">
-              <div class="tip-item__icon">
-                <i class="bi bi-check2-circle"></i>
+            <div class="status-grid">
+              <div class="metric-card">
+                <div class="metric-card__label">Cámara</div>
+                <div class="metric-card__value">
+                  {{ camaraActiva ? 'Activa' : 'Inactiva' }}
+                </div>
               </div>
-              <div>{{ item }}</div>
+
+              <div class="metric-card">
+                <div class="metric-card__label">Inferencia</div>
+                <div class="metric-card__value">
+                  {{ cargando ? 'Procesando' : 'Disponible' }}
+                </div>
+              </div>
+            </div>
+
+            <div class="detection-box mt-4" *ngIf="deteccionActual">
+              <div class="detection-box__header">
+                <i class="bi" [ngClass]="deteccionActual.icon"></i>
+                Última detección
+              </div>
+
+              <h3 class="detection-box__title">{{ deteccionActual.label }}</h3>
+              <p class="detection-box__message">{{ deteccionActual.message }}</p>
+              <div class="app-chip">
+                <i class="bi bi-bar-chart"></i>
+                Confianza: {{ deteccionActual.confidence * 100 | number:'1.0-0' }}%
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card p-4">
+            <h2 class="section-title">Buenas prácticas de uso</h2>
+
+            <div class="vstack gap-3">
+              <div class="tip-item" *ngFor="let item of recomendaciones">
+                <div class="tip-item__icon">
+                  <i class="bi bi-check2-circle"></i>
+                </div>
+                <div>{{ item }}</div>
+              </div>
             </div>
           </div>
         </div>

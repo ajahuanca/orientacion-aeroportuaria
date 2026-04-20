@@ -1,40 +1,38 @@
 import { Injectable } from '@angular/core';
+import { TextToSpeech } from '@capacitor-community/text-to-speech';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class AudioGuiaService {
-    private synthesis = window.speechSynthesis;
-    private ultimaFrase = '';
-    private ultimoTiempo = 0;
-    private readonly cooldownMs = 2500;
+  private ultimaFrase = '';
+  private ultimoTiempo = 0;
+  private readonly cooldownMs = 2500;
 
-    hablar(texto: string): void {
-        const ahora = Date.now();
+  async hablar(texto: string): Promise<void> {
+    const ahora = Date.now();
 
-        if (!texto?.trim()) {
-            return;
-        }
-
-        if (this.ultimaFrase === texto && ahora - this.ultimoTiempo < this.cooldownMs) {
-            return;
-        }
-
-        this.synthesis.cancel();
-
-        const utterance = new SpeechSynthesisUtterance(texto);
-        utterance.lang = 'es-ES';
-        utterance.rate = 0.95;
-        utterance.pitch = 1;
-        utterance.volume = 1;
-
-        this.synthesis.speak(utterance);
-
-        this.ultimaFrase = texto;
-        this.ultimoTiempo = ahora;
+    if (!texto?.trim()) {
+      return;
     }
 
-    detener(): void {
-        this.synthesis.cancel();
+    if (this.ultimaFrase === texto && ahora - this.ultimoTiempo < this.cooldownMs) {
+      return;
     }
+
+    await TextToSpeech.speak({
+      text: texto,
+      lang: 'es-ES',
+      rate: 0.95,
+      pitch: 1,
+      volume: 1
+    });
+
+    this.ultimaFrase = texto;
+    this.ultimoTiempo = ahora;
+  }
+
+  async detener(): Promise<void> {
+    await TextToSpeech.stop();
+  }
 }

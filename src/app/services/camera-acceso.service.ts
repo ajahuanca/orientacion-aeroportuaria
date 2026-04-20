@@ -1,32 +1,46 @@
 import { Injectable } from '@angular/core';
+import { CameraPreview } from '@capacitor-community/camera-preview';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class CameraAccesoService {
-    async solicitarAcceso(video: HTMLVideoElement): Promise<MediaStream> {
-        if (!navigator.mediaDevices?.getUserMedia) {
-            throw new Error('La cámara no está soportada en este dispositivo o navegador.');
-        }
+  async iniciarPreview(): Promise<void> {
+    const container = document.getElementById('cameraPreview');
 
-        const stream = await navigator.mediaDevices.getUserMedia({
-            video: {
-                facingMode: 'environment'
-            },
-            audio: false
-        });
-
-        video.srcObject = stream;
-        await video.play();
-
-        return stream;
+    if (!container) {
+      throw new Error('No se encontró el contenedor de cámara.');
     }
 
-    detenerStream(stream: MediaStream | null): void {
-        if (!stream) {
-            return;
-        }
+    const rect = container.getBoundingClientRect();
+    const scrollY = window.scrollY || 0;
 
-        stream.getTracks().forEach((track) => track.stop());
+    await CameraPreview.start({
+      parent: 'cameraPreview',
+      className: 'camera-preview',
+      position: 'rear',
+      toBack: false,
+      x: Math.round(rect.left),
+      y: Math.round(rect.top + scrollY),
+      width: Math.round(rect.width),
+      height: Math.round(rect.height),
+      enableZoom: false
+    });
+  }
+
+  async capturar(): Promise<string | undefined> {
+    const result = await CameraPreview.capture({
+      quality: 85
+    });
+
+    return result.value;
+  }
+
+  async detenerPreview(): Promise<void> {
+    try {
+      await CameraPreview.stop();
+    } catch (error) {
+      console.warn('No se pudo detener el preview o ya estaba detenido.', error);
     }
+  }
 }
